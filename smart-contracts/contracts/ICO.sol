@@ -2,8 +2,9 @@
 pragma solidity >= 0.8.16;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./RRH.sol";
 
-contract StknICO {
+contract RRHICO {
     //Administration Details
     address public admin;
     address payable public ICOWallet;
@@ -12,11 +13,12 @@ contract StknICO {
     IERC20 public token;
 
     //ICO Details
-    uint public tokenPrice = 0.0001 ether;
-    uint public hardCap = 500 ether;
+    uint public tokenPrice = 0.001 ether;
+    uint public hardCap = 2 ether;
+    uint public softcap = 0.1 ether;
     uint public raisedAmount;
-    uint public minInvestment = 0.001 ether;
-    uint public maxInvestment = 3 ether;
+    uint public minInvestment = 0.01 ether;
+    uint public maxInvestment = 0.5 ether;
     uint public icoStartTime;
     uint public icoEndTime;
 
@@ -124,8 +126,8 @@ contract StknICO {
         );
 
         require(
-            raisedAmount + msg.value <= hardCap,
-            "Send within hardcap range"
+            raisedAmount + msg.value <= token.totalSupply,
+            "Send within totalSupply range"
         );
         require(
             block.timestamp <= icoEndTime,
@@ -166,6 +168,31 @@ contract StknICO {
             "ICO Hardcap or timelimit not reached"
         );
         ICOState = State.END;
+    }
+    //Withdraw
+    function withdraw() public payable returns (bool) {
+        require(ICOState == State.END, "ICO isn't end");
+        require(
+            raiseAmount >= softcap,
+            "Check raiseAmount"
+        );
+        require(
+            block.timestamp > icoEndTime,
+            "ICO is running"
+        );
+        uint withdrawamount = investedAmountOf[msg.sender];
+        raisedAmount -= investedAmountOf[msg.sender];
+        investedAmountOf[msg.sender] = 0;
+
+        (bool transferSuccess, ) = ICOWallet.call{value: withdrawamount}("");
+        require(transferSuccess, "Failed to Withdraw");
+
+        uint tokens = (withdrawamount/ tokenPrice) * 1e18;
+        bool saleSuccess = token.transfer(address(this), tokens);
+        require(saleSuccess, "Failed to Withdraw");
+
+        emit Withdraw( msg.sender, address(this), withdrawamount, tokens);
+        return true;
     }
 
     //Check ICO Contract Token Balance
