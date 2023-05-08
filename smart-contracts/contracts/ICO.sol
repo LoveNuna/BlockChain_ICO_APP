@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >= 0.8.16;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+//import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./RRH.sol";
 
 contract RRHICO {
@@ -10,7 +10,7 @@ contract RRHICO {
     address payable public ICOWallet;
 
     //Token
-    IERC20 public token;
+    RRH public token;
 
     //ICO Details
     uint public tokenPrice = 0.001 ether;
@@ -41,13 +41,19 @@ contract RRHICO {
         uint value,
         uint tokens
     );
+    event Withdraw(
+        address indexed from,
+        address indexed to,
+        uint value,
+        uint tokens
+    );
     event TokenBurn(address to, uint amount, uint time);
 
     //Initialize Variables
     constructor(address payable _icoWallet, address _token) {
         admin = msg.sender;
         ICOWallet = _icoWallet;
-        token = IERC20(_token);
+        token = RRH(_token);
     }
 
     //Access Control
@@ -126,7 +132,7 @@ contract RRHICO {
         );
 
         require(
-            raisedAmount + msg.value <= token.totalSupply,
+            raisedAmount + msg.value <= token.totalSupply(),
             "Send within totalSupply range"
         );
         require(
@@ -173,7 +179,7 @@ contract RRHICO {
     function withdraw() public payable returns (bool) {
         require(ICOState == State.END, "ICO isn't end");
         require(
-            raiseAmount >= softcap,
+            raisedAmount >= softcap,
             "Check raiseAmount"
         );
         require(
