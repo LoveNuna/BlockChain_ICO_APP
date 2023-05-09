@@ -3,14 +3,14 @@ import React from "react";
 const Footer = () => {
   return (
     <div className="flex justify-center font-poppins font-bold m-3">
-      Made with from &nbsp;
+      Made with &#10084; from &nbsp;
       <a
-        href="https://github.com/marybarnett12"
+        href="https://github.com/kaamil-ahamadh"
         target="_blank"
         rel="noreferrer noopener"
         className="text-cyan-500"
       >
-        RRB Team
+        Kaamil
       </a>
     </div>
   );
