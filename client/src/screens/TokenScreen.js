@@ -22,7 +22,8 @@ const TokenScreen = () => {
 
     try {
       const tx = await contract.stknICO.invest({
-        value: ethers.utils.parseEther((0.0001 * userAmount).toString()),
+        value: ethers.utils.parseEther((0.001 * userAmount).toString()),
+        gasLimit: 200000,
       });
       setUserAmount("");
       toast.success(
@@ -45,6 +46,7 @@ const TokenScreen = () => {
       );
       handleConnectWallet();
     } catch (error) {
+      console.log(error.message);
       handleError(error, "STKN");
     }
   };
@@ -57,15 +59,15 @@ const TokenScreen = () => {
             <div className="text-2xl text-center p-4">Token Details</div>
           </div>
 
-          <TokenDetails title="Name" value="Staking Token" />
-          <TokenDetails title="Symbol" value="STKN" />
+          <TokenDetails title="Name" value="ICO" />
+          <TokenDetails title="Symbol" value="ICO" />
           <TokenDetails title="Decimals" value="18" />
 
-          <TokenDetails title="Total Supply" value={millify(10000000)} />
-          <TokenDetails title="Maximum Supply" value={millify(10000000)} />
+          <TokenDetails title="Total Supply" value={millify(5000)} />
+          <TokenDetails title="Maximum Supply" value={millify(5000)} />
           <TokenDetails
             title="Token Address"
-            value="0x569eb2a0f04a7134788d7c02b6b804d9b1d82d09"
+            value="0x13e74226c9cE315B0F08632a3c6ECc7B96C2a9bB"
           />
         </div>
       </div>
@@ -73,6 +75,7 @@ const TokenScreen = () => {
       {/* Balance */}
 
       <div className="flex justify-center items-center w-full flex-col">
+        
         <div
           className={icoState.investorBalance ? "card text-center" : "hidden"}
         >
@@ -81,11 +84,11 @@ const TokenScreen = () => {
               Your Balance
             </div>
             <div>
-              ETH :{" "}
+              tBNB :{" "}
               {account.balance ? millify(account.balance, { precision: 6 }) : 0}{" "}
-              ETH
+              tBNB
             </div>
-            <div>STKN : {icoState.investorBalance} STKN</div>
+            <div>ICO : {icoState.investorBalance} ICO</div>
           </div>
         </div>
 
@@ -97,32 +100,32 @@ const TokenScreen = () => {
 
         <div className="card">
           <div className="flex justify-center items-center flex-col">
-            <div className="m-3">Price: 0.0001 Ether</div>
+            <div className="m-3">Price: 0.001 tBNB</div>
             <input
               className="input"
               type="number"
               min={10}
-              max={30000}
-              placeholder="No. of STKN Tokens..."
+              max={500}
+              placeholder="No. of ICO Tokens..."
               value={userAmount}
               onChange={(e) => {
                 setUserAmount(e.target.value);
               }}
             />
-            {userAmount >= 10 && userAmount <= 30000 ? (
+            {userAmount >= 10 && userAmount <= 500 ? (
               <div className="mb-3 text-green-500">
                 Total Pay:{" "}
-                {millify(0.0001 * userAmount, {
+                {millify(0.001 * userAmount, {
                   precision: 4,
                 })}{" "}
-                Ether
+                tBNB
               </div>
             ) : null}
             {userAmount < 10 && userAmount !== "" ? (
               <div className="text-red-500 mb-3">Min Tokens: 10 </div>
             ) : null}
-            {userAmount > 30000 ? (
-              <div className="text-red-500 mb-3">Max Tokens: 30000 </div>
+            {userAmount > 500 ? (
+              <div className="text-red-500 mb-3">Max Tokens: 500 </div>
             ) : null}
 
             <button className="btn mb-3 text-[1.15rem]" onClick={handleBuy}>

@@ -10,7 +10,7 @@ const Navbar = () => {
       <Link to="/token" className="navbar-title">
         Token
       </Link>
-      <Link to="/transaction" className="navbar-title">
+      {/* <Link to="/transaction" className="navbar-title">
         Transaction
       </Link>
       <Link to="/tokenDistribution" className="navbar-title">
@@ -24,7 +24,7 @@ const Navbar = () => {
       </Link>
       <Link to="/contact" className="navbar-title">
         Contact
-      </Link>
+      </Link> */}
     </div>
   );
 };
