@@ -3,9 +3,9 @@ import { stakingICOAddress, stakingICOAbi } from "./constants";
 import { toast } from "react-toastify";
 
 async function loadContract(signer, chainId, setContract, address) {
-  if (chainId !== 5) {
+  if (chainId !== 97) {
     toast.error(
-      "Please Change your network to Goerli Network for Buying Tokens"
+      "Please Change your network to BNB Test Network for Buying Tokens"
     );
     return;
   }
@@ -14,13 +14,11 @@ async function loadContract(signer, chainId, setContract, address) {
     stakingICOAbi,
     signer
   );
-
   setContract({
     stknICO: _stknICOContract,
   });
 
   //Read From Contract
-
   const tokensAvailable = ethers.utils.formatEther(
     await _stknICOContract.getICOTokenBalance()
   );
@@ -28,7 +26,6 @@ async function loadContract(signer, chainId, setContract, address) {
   const investorBalance = ethers.utils.formatEther(
     await _stknICOContract.investorBalanceOf(address)
   );
-
   return {
     tokensAvailable,
     investorBalance,

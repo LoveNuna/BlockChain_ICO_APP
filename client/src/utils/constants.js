@@ -1,4 +1,4 @@
-import stknICO from "./stknICO.json";
+import RRHICO from "./RRHICO.json";
 
-export const stakingICOAddress = "0x8f0680d7aa5a919eefcae59f79956495427217cc";
-export const stakingICOAbi = stknICO.abi;
+export const stakingICOAddress = "0x6674Df420E7057E6E277184715783A9cb5A7b037";
+export const stakingICOAbi = RRHICO.abi;

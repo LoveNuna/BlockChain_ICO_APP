@@ -59,6 +59,7 @@ function App() {
 
     setProvider(_provider);
     setSigner(_signer);
+
     setAccount({
       address: _address,
       balance: _balance,
@@ -109,13 +110,13 @@ function App() {
                   <Route path="/home" element={<HomeScreen />} />
                   <Route path="/token" element={<TokenScreen />} />
                   <Route path="/transaction" element={<TransactionScreen />} />
-                  <Route
+                  {/* <Route
                     path="/tokenDistribution"
                     element={<TokenDistScreen />}
                   />
                   <Route path="/faucet" element={<FaucetScreen />} />
                   <Route path="/faq" element={<FaqScreen />} />
-                  <Route path="/contact" element={<ContactScreen />} />
+                  <Route path="/contact" element={<ContactScreen />} /> */}
 
                   <Route path="*" element={<ErrorScreen />} />
                 </>

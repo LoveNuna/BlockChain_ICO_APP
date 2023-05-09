@@ -10,7 +10,7 @@ const SaleEnds = () => {
   // const tokensAvailableInPerc = (icoState.tokensAvailable / 5000000) * 100;
 
   const [timer, setTimer] = useState({
-    icoEndDate: "Tuesday, 15 August 2023 18:19:48 GMT+00:00",
+    icoEndDate: "Tuesday, 10 May 2023 09:00:00 GMT-08:00",
     days: "0",
     hours: "0",
     minutes: "0",
@@ -70,10 +70,10 @@ const SaleEnds = () => {
               <div className="h-4 w-full bg-gray-200 mb-6 rounded-xl text-md">
                 <div
                   className={`w-${
-                    (icoState.tokensAvailable / 5000000) * 100
+                    (icoState.tokensAvailable ) * 100
                   }% h-4 bg-teal-700 rounded-xl text-xs font-bold text-center p-0.5 leading-none`}
                 >
-                  {(icoState.tokensAvailable / 5000000) * 100} %
+                  {(icoState.tokensAvailable ) * 100} %
                 </div>
                 Tokens Available
               </div>
