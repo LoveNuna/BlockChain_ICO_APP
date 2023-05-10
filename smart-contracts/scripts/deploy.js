@@ -12,7 +12,7 @@ async function main() {
   console.log("Deploying RRHICO Contract...");
   const RRHICOFactory = await ethers.getContractFactory("RRHICO");
   const RRHICO = await RRHICOFactory.deploy(
-    "0x00f2a05f8327ac26e1994b92dbd4e4813bfa8609",
+    "0x2Fc88B2065012314Cb91606D00115eD82f6f6CF9",
     RRH.address
   );
   console.log("Deployed RRHICO:", RRHICO.address);

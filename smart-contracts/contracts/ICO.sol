@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >= 0.8.16;
 
-//import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "./RRH.sol";
+import "../node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract RRHICO {
     //Administration Details
@@ -10,7 +9,7 @@ contract RRHICO {
     address payable public ICOWallet;
 
     //Token
-    RRH public token;
+    IERC20 public token;
 
     //ICO Details
     uint public tokenPrice = 0.001 ether;
@@ -19,8 +18,8 @@ contract RRHICO {
     uint public raisedAmount;
     uint public minInvestment = 0.01 ether;
     uint public maxInvestment = 0.5 ether;
-    uint public icoStartTime;
-    uint public icoEndTime;
+    uint public icoStartTime = 1683622290000;
+    uint public icoEndTime = 1683679890000;
 
     //Investor
     mapping(address => uint) public investedAmountOf;
@@ -53,7 +52,8 @@ contract RRHICO {
     constructor(address payable _icoWallet, address _token) {
         admin = msg.sender;
         ICOWallet = _icoWallet;
-        token = RRH(_token);
+        token = IERC20(_token);
+        ICOState = State.BEFORE;
     }
 
     //Access Control
@@ -144,7 +144,7 @@ contract RRHICO {
         investedAmountOf[msg.sender] += msg.value;
 
         (bool transferSuccess, ) = ICOWallet.call{value: msg.value}("");
-        require(transferSuccess, "Failed to Invest");
+        require(transferSuccess, "Failed to Invest transfer");
 
         uint tokens = (msg.value / tokenPrice) * 1e18;
         bool saleSuccess = token.transfer(msg.sender, tokens);
@@ -179,7 +179,7 @@ contract RRHICO {
     function withdraw() public payable returns (bool) {
         require(ICOState == State.END, "ICO isn't end");
         require(
-            raisedAmount >= softcap,
+            raisedAmount <= softcap,
             "Check raiseAmount"
         );
         require(
